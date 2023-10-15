@@ -2,7 +2,6 @@ package com.marcelo.crudspring.service;
 
 import com.marcelo.crudspring.dto.CourseDTO;
 import com.marcelo.crudspring.dto.mapper.CourseMapper;
-import com.marcelo.crudspring.enums.Category;
 import com.marcelo.crudspring.exception.RecordNotFoundException;
 import com.marcelo.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
@@ -46,7 +45,7 @@ public class CourseService {
         return courseRepository.findById(id)
             .map(courseFound -> {
                 courseFound.setName(course.name());
-                courseFound.setCategory(Category.FRONT_END);
+                courseFound.setCategory(courseMapper.convertCategoryValue(course.category()));
                 return courseMapper.toDTO(courseRepository.save(courseFound));
             })
             .orElseThrow(() -> new RecordNotFoundException(id));

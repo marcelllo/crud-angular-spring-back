@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.marcelo.crudspring.enums.Category;
 import com.marcelo.crudspring.enums.Status;
 import com.marcelo.crudspring.enums.converters.CategoryConverter;
+import com.marcelo.crudspring.enums.converters.StatusConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -40,6 +41,6 @@ public class Course {
 
     @NotNull
     @Column(length = 10, nullable = false)
-    @Enumerated(EnumType.STRING)
-    private Status status = Status.Ativo;
+    @Convert(converter = StatusConverter.class)
+    private Status status = Status.ACTIVE;
 }

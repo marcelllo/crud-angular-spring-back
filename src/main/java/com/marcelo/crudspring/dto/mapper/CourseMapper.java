@@ -13,7 +13,7 @@ public class CourseMapper {
             return null;
         }
 
-        return new CourseDTO(course.getId(), course.getName(), "Front-End");
+        return new CourseDTO(course.getId(), course.getName(), course.getCategory().getValue());
     }
 
     public Course toEntity(CourseDTO courseDto) {
@@ -21,6 +21,18 @@ public class CourseMapper {
             return null;
         }
 
-        return new Course(courseDto.id(), courseDto.name(), Category.FRONT_END, Status.Ativo);
+        return new Course(courseDto.id(), courseDto.name(), convertCategoryValue(courseDto.category()), Status.ACTIVE);
+    }
+
+    public Category convertCategoryValue(String value) {
+        if (value == null) {
+            return null;
+        }
+
+        return switch (value) {
+            case "Front-End" -> Category.FRONT_END;
+            case "Back-End" -> Category.BACK_END;
+            default -> throw new IllegalArgumentException("Categoria inválida: " + value);
+        };
     }
 }
