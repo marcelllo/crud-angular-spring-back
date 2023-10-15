@@ -1,5 +1,6 @@
 package com.marcelo.crudspring;
 
+import com.marcelo.crudspring.enums.Category;
 import com.marcelo.crudspring.model.Course;
 import com.marcelo.crudspring.repository.CourseRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +21,7 @@ public class CrudSpringApplication {
 //			courseRepository.deleteAll();
 			Course c = new Course();
 			c.setName("Angular");
-			c.setCategory("Front-End");
+			c.setCategory(Category.BACK_END);
 			courseRepository.save(c);
 		};
 	}

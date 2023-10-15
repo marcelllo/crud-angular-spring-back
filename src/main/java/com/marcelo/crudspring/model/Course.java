@@ -1,14 +1,12 @@
 package com.marcelo.crudspring.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.marcelo.crudspring.enums.Category;
+import com.marcelo.crudspring.enums.Status;
+import com.marcelo.crudspring.enums.converters.CategoryConverter;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,14 +34,12 @@ public class Course {
     private String name;
 
     @NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Back-End|Front-End")
-    @Column(length = 10, nullable = false)
-    private String category;
+    @Column(nullable = false, length = 10)
+    @Convert(converter = CategoryConverter.class)
+    private Category category;
 
     @NotNull
-    @Length(max = 10)
-    @Pattern(regexp = "Ativo|Inativo")
     @Column(length = 10, nullable = false)
-    private String status = "Ativo";
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.Ativo;
 }
