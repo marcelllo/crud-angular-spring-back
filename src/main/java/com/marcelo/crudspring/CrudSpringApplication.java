@@ -17,7 +17,7 @@ public class CrudSpringApplication {
 	@Bean
 	CommandLineRunner initDatabase(CourseRepository courseRepository) {
 		return args -> {
-			courseRepository.deleteAll();
+//			courseRepository.deleteAll();
 			Course c = new Course();
 			c.setName("Angular");
 			c.setCategory("front-end");

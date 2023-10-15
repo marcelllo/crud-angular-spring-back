@@ -1,5 +1,6 @@
 package com.marcelo.crudspring.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.Data;
 @Entity
 public class Course {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("_id")
     private Long id;
     @Column(length = 200, nullable = false)
