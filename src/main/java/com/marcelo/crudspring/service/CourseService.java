@@ -1,5 +1,6 @@
 package com.marcelo.crudspring.service;
 
+import com.marcelo.crudspring.exception.RecordNotFoundException;
 import com.marcelo.crudspring.model.Course;
 import com.marcelo.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
@@ -24,29 +25,27 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
-    public Optional<Course> findById(@NotNull @Positive Long id) {
-        return this.courseRepository.findById(id);
+    public Course findById(@NotNull @Positive Long id) {
+        return this.courseRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
     public Course create(@Valid Course course) {
         return this.courseRepository.save(course);
     }
 
-    public Optional<Course> update(@NotNull @Positive Long id, @Valid Course course) {
+    public Course update(@NotNull @Positive Long id, @Valid Course course) {
         return courseRepository.findById(id)
             .map(courseFound -> {
                 courseFound.setName(course.getName());
                 courseFound.setCategory(course.getCategory());
                 return courseRepository.save(courseFound);
-            });
+            })
+            .orElseThrow(() -> new RecordNotFoundException(id));
     }
 
-    public boolean delete(@NotNull @Positive Long id) {
-        return this.courseRepository.findById(id)
-            .map(course -> {
-                this.courseRepository.delete(course);
-                return true;
-            })
-            .orElse(false);
+    public void delete(@NotNull @Positive Long id) {
+        this.courseRepository.delete(this.courseRepository
+            .findById(id)
+            .orElseThrow(() -> new RecordNotFoundException(id)));
     }
 }

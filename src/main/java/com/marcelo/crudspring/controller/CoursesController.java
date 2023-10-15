@@ -2,6 +2,7 @@ package com.marcelo.crudspring.controller;
 
 import java.util.List;
 
+import com.marcelo.crudspring.exception.RecordNotFoundException;
 import com.marcelo.crudspring.model.Course;
 import com.marcelo.crudspring.service.CourseService;
 import jakarta.validation.Valid;
@@ -29,10 +30,8 @@ public class CoursesController {
   }
 
   @GetMapping("/{id}")
-  public ResponseEntity<Course> findById(@PathVariable @Positive Long id) {
-    return courseService.findById(id)
-        .map(record -> ResponseEntity.ok().body(record))
-        .orElse(ResponseEntity.notFound().build());
+  public Course findById(@PathVariable @Positive Long id) {
+    return courseService.findById(id);
   }
 
   @PostMapping
@@ -42,16 +41,13 @@ public class CoursesController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Course> update(@PathVariable @NotNull @Positive Long id, @Valid @RequestBody Course course) {
-    return courseService.update(id, course)
-        .map(updated -> ResponseEntity.ok().body(updated))
-        .orElse(ResponseEntity.notFound().build());
+  public Course update(@PathVariable @NotNull @Positive Long id, @Valid @RequestBody Course course) {
+    return courseService.update(id, course);
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Void> delete(@PathVariable @NotNull @Positive Long id) {
-    return this.courseService.delete(id) ?
-            ResponseEntity.noContent().<Void>build() :
-            ResponseEntity.notFound().<Void>build();
+  @ResponseStatus(code = HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable @NotNull @Positive Long id) {
+    this.courseService.delete(id);
   }
 }
