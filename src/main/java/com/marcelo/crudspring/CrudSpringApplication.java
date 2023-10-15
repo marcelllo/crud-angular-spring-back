@@ -20,7 +20,7 @@ public class CrudSpringApplication {
 //			courseRepository.deleteAll();
 			Course c = new Course();
 			c.setName("Angular");
-			c.setCategory("front-end");
+			c.setCategory("Front-End");
 			courseRepository.save(c);
 		};
 	}
