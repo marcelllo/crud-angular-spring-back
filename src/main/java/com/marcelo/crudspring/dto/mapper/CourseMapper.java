@@ -2,7 +2,6 @@ package com.marcelo.crudspring.dto.mapper;
 
 import com.marcelo.crudspring.dto.CourseDTO;
 import com.marcelo.crudspring.enums.Category;
-import com.marcelo.crudspring.enums.Status;
 import com.marcelo.crudspring.model.Course;
 import org.springframework.stereotype.Component;
 
@@ -21,7 +20,12 @@ public class CourseMapper {
             return null;
         }
 
-        return new Course(courseDto.id(), courseDto.name(), convertCategoryValue(courseDto.category()), Status.ACTIVE);
+        Course course = new Course();
+        course.setId(courseDto.id());
+        course.setName(courseDto.name());
+        course.setCategory(convertCategoryValue(courseDto.category()));
+
+        return course;
     }
 
     public Category convertCategoryValue(String value) {
