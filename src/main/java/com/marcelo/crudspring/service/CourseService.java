@@ -48,9 +48,7 @@ public class CourseService {
 
                 courseFound.setName(course.getName());
                 courseFound.setCategory(course.getCategory());
-//                courseFound.setLessons(course.getLessons());
-                courseFound.getLessons().clear();
-                courseFound.getLessons().addAll(course.getLessons());
+                courseFound.setLessons(course.getLessons());
 
                 return courseMapper.toDTO(courseRepository.save(courseFound));
             })
