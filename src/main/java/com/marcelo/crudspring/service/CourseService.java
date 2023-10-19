@@ -1,12 +1,18 @@
 package com.marcelo.crudspring.service;
 
 import com.marcelo.crudspring.dto.CourseDTO;
+import com.marcelo.crudspring.dto.CoursePageDTO;
 import com.marcelo.crudspring.dto.mapper.CourseMapper;
 import com.marcelo.crudspring.exception.RecordNotFoundException;
+import com.marcelo.crudspring.model.Course;
 import com.marcelo.crudspring.repository.CourseRepository;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
@@ -25,11 +31,20 @@ public class CourseService {
         this.courseMapper = courseMapper;
     }
 
-    public List<CourseDTO> list() {
-        return courseRepository.findAll()
-                .stream()
-                .map(courseMapper::toDTO)
-                .collect(Collectors.toList());
+//    public List<CourseDTO> list() {
+//        return courseRepository.findAll()
+//                .stream()
+//                .map(courseMapper::toDTO)
+//                .collect(Collectors.toList());
+//    }
+
+    public CoursePageDTO list(
+            @NotNull @PositiveOrZero int page,
+            @NotNull @PositiveOrZero @Max(25) int pageSize
+    ) {
+        Page<Course> coursePage = courseRepository.findAll(PageRequest.of(page, pageSize));
+        List<CourseDTO> courses = coursePage.get().map(courseMapper::toDTO).collect(Collectors.toList());
+        return new CoursePageDTO(courses, coursePage.getTotalElements(), coursePage.getTotalPages());
     }
 
     public CourseDTO findById(@NotNull @Positive Long id) {
