@@ -34,13 +34,13 @@ public class CoursesController {
 
   @PostMapping
   @ResponseStatus(code = HttpStatus.CREATED)
-  public CourseDTO create(@RequestBody @Valid CourseDTO course) {
-    return courseService.create(course);
+  public CourseDTO create(@RequestBody @Valid CourseDTO courseDTO) {
+    return courseService.create(courseDTO);
   }
 
   @PutMapping("/{id}")
-  public CourseDTO update(@PathVariable @NotNull @Positive Long id, @Valid @RequestBody CourseDTO course) {
-    return courseService.update(id, course);
+  public CourseDTO update(@PathVariable @NotNull @Positive Long id, @Valid @RequestBody CourseDTO courseDTO) {
+    return courseService.update(id, courseDTO);
   }
 
   @DeleteMapping("/{id}")

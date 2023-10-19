@@ -13,5 +13,5 @@ public record CourseDTO(
     @NotNull @NotBlank @Length(min = 5, max = 100) String name,
     @NotNull @Length(max = 10) @Pattern(regexp = "Back-End|Front-End") String category,
 
-    List<LessonDTO> lessons
+    @NotNull List<LessonDTO> lessons
 ) {}
